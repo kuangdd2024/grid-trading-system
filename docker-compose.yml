@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  grid_server:
+    container_name: grid_server
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.12
+    environment:
+      VERSION: 'grid_server:base'
+    restart: always
+    ports:
+      - "8801:8000"
+    volumes:
+      - "grid_server-wp:/app/wp"
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
+          #gateway: 172.16.238.1
+
+volumes:
+  grid_server-wp:
